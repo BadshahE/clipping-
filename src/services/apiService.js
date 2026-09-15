@@ -74,6 +74,21 @@ export const apiService = {
           const user = data?.user
           console.log('Registered user in Supabase Auth:', user)
 
+          // Sync profile to public.profiles table if exists
+          if (user) {
+            try {
+              await supabase.from('profiles').upsert({
+                id: user.id,
+                email: user.email,
+                display_name: displayName || email.split('@')[0],
+                role: role || 'clipper',
+                avatar: `https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80`
+              })
+            } catch (pErr) {
+              console.warn('Profiles table sync notice:', pErr)
+            }
+          }
+
           const sessionUser = {
             id: user ? user.id : `user-${Date.now().toString().slice(-4)}`,
             email: user ? user.email : email,
@@ -122,12 +137,13 @@ export const apiService = {
           msg.includes('failed to fetch')
         ) {
           console.info('Using local session fallback due to API key config.')
+          throw new Error('Invalid Supabase API Key! Please get your real anon key (starts with eyJhbG...) from Supabase Dashboard -> Project Settings -> API.')
         } else if (
           msg.includes('rate limit') || 
           msg.includes('over_email_send_rate_limit') || 
           msg.includes('too many requests')
         ) {
-          console.info('Supabase email rate limit reached. Proceeding with active session.')
+          console.info('Supabase email rate limit reached. Creating session.')
         } else {
           throw sbErr
         }
