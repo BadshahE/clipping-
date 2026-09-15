@@ -17,7 +17,6 @@ import {
   Play, 
   Zap, 
   X, 
-  SlidersHorizontal,
   ArrowUpRight,
   ShieldCheck,
   CreditCard,

@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { 
   Scissors, 
   Flame, 
-  PlusCircle, 
   Wallet, 
   Trophy, 
   ShieldAlert, 

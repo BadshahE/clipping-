@@ -6,6 +6,10 @@ node_modules
 dist
 build
 
+# Agent skills cache
+.agents
+skills-lock.json
+
 # Environment files
 .env.local
 .env.*.local

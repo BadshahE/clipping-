@@ -21,7 +21,6 @@ import {
   Sparkles,
   Calendar,
   Lock,
-  ArrowDownRight,
   ArrowUpRight,
   Activity
 } from 'lucide-react'
