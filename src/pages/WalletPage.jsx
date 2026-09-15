@@ -15,16 +15,17 @@ import { apiService } from '../services/apiService'
 import confetti from 'canvas-confetti'
 
 export function WalletPage({ activeRole }) {
-  const clipperUser = apiService.getCurrentUser('clipper')
-  const [wallet, setWallet] = useState(null)
+  const clipperUser = apiService.getCurrentUser('clipper') || { id: 'user-clipper-1', display_name: 'ViralClipz_99' }
+  const [wallet, setWallet] = useState({ balance: 0, total_earned: 0, total_withdrawn: 0 })
   const [transactions, setTransactions] = useState([])
   const [showWithdrawModal, setShowWithdrawModal] = useState(false)
   const [withdrawAmount, setWithdrawAmount] = useState('')
   const [error, setError] = useState('')
 
   const refreshData = () => {
-    setWallet(apiService.getWallet(clipperUser.id))
-    setTransactions(apiService.getTransactions(clipperUser.id))
+    const w = apiService.getWallet(clipperUser.id)
+    if (w) setWallet(w)
+    setTransactions(apiService.getTransactions(clipperUser.id) || [])
   }
 
   useEffect(() => {
@@ -59,8 +60,6 @@ export function WalletPage({ activeRole }) {
       setError(err.message)
     }
   }
-
-  if (!wallet) return null
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">

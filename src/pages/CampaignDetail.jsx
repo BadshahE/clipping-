@@ -157,10 +157,10 @@ export function CampaignDetail({ activeRole }) {
 
                   <div className="text-right">
                     <span className="text-xs font-extrabold text-white block">
-                      {sub.verified_views.toLocaleString()} views
+                      {(sub.verified_views || 0).toLocaleString()} views
                     </span>
                     <span className="text-[10px] text-emerald-400 font-bold">
-                      ${sub.earned_amount.toFixed(2)} earned
+                      ${(sub.earned_amount || 0).toFixed(2)} earned
                     </span>
                   </div>
                 </div>
